@@ -42,11 +42,11 @@ public class Report {
     @Column(name = "content", nullable = false)
     private String content;
 
+    @Column(name = "created_at", nullable = false)
+    private Timestamp created_at;
+
     @Column(name = "updated_at", nullable = false)
     private Timestamp updated_at;
-
-    @Column(name = "delete_flag", nullable = false)
-    private Integer delete_flag;
 
     /**
      * @return id
@@ -119,6 +119,20 @@ public class Report {
     }
 
     /**
+     * @return created_at
+     */
+    public Timestamp getCreated_at() {
+        return created_at;
+    }
+
+    /**
+     * @param created_at セットする created_at
+     */
+    public void setCreated_at(Timestamp created_at) {
+        this.created_at = created_at;
+    }
+
+    /**
      * @return updated_at
      */
     public Timestamp getUpdated_at() {
@@ -132,18 +146,5 @@ public class Report {
         this.updated_at = updated_at;
     }
 
-    /**
-     * @return delete_flag
-     */
-    public Integer getDelete_flag() {
-        return delete_flag;
-    }
-
-    /**
-     * @param delete_flag セットする delete_flag
-     */
-    public void setDelete_flag(Integer delete_flag) {
-        this.delete_flag = delete_flag;
-    }
 
 }
