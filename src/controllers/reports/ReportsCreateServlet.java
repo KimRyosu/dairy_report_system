@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import models.Employee;
 import models.Report;
 import models.validators.ReportValidator;
 import utils.DBUtil;
@@ -29,7 +30,6 @@ public class ReportsCreateServlet extends HttpServlet {
      */
     public ReportsCreateServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
     /**
@@ -42,13 +42,14 @@ public class ReportsCreateServlet extends HttpServlet {
 
             Report r = new Report();
 
-            r.setEmployee_id(request.getParameter("employee_id"));
+            r.setEmployee((Employee)request.getSession().getAttribute("login_employee"));
 
-            String rst_rep_date = request.getParameter("report_date");
-            if(rst_rep_date != null && !(rst_rep_date.equals(""))){
-                Date report_date = Date.valueOf(request.getParameter("report_date"));
-                r.setReport_date(report_date);
+            Date report_date = new Date(System.currentTimeMillis());
+            String rd_str = request.getParameter("report_date");
+            if(rd_str != null && !rd_str.equals("")) {
+                report_date = Date.valueOf(request.getParameter("report_date"));
             }
+            r.setReport_date(report_date);
 
             r.setTitle(request.getParameter("title"));
             r.setContent(request.getParameter("content"));
@@ -71,13 +72,12 @@ public class ReportsCreateServlet extends HttpServlet {
                 em.getTransaction().begin();
                 em.persist(r);
                 em.getTransaction().commit();
-                request.getSession().setAttribute("flush", "登録が完了しました。");
                 em.close();
+                request.getSession().setAttribute("flush", "登録が完了しました。");
 
                 response.sendRedirect(request.getContextPath() + "/reports/index");
             }
         }
-
     }
 
 }
